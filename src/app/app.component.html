@@ -1,0 +1,67 @@
+<div>
+  <h1>{{ title }}</h1>
+
+  <div class="search-container">
+    <form>
+      <label for="search">Movie name:</label>
+      <input type="text" [(ngModel)]="movieSearch" id="movieSearch" name="movieName" required>
+      <label for="Year">Year: </label>
+      <input type="number" [(ngModel)]="filterYear" id="year" name="year">
+      <label>
+        Media Type:
+      <select [(ngModel)]="filterMediaType" name="movieType">
+        <option value="">All</option>
+        <option value="movie">Movie</option>
+        <option value="series">Series</option>
+        <option value="episode">Episode</option>
+      </select>
+    </label>
+      <button type="submit" (click)="searchMovie()">Search</button>
+    </form>
+  </div>
+  
+  <div *ngIf="err" class="error-message">
+    <p class="error-message">{{ err }}</p>
+  </div>
+
+  <div *ngIf="loading" class="spinner"></div>
+
+  <div *ngIf="!loading" class="movie-list" >
+    <div *ngIf="movies && movies.length > 0 && !showMovieDetails">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Type</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let movie of movies">
+            <td>{{ movie.Title }}</td>
+            <td>{{ movie.Year }}</td>
+            <td>{{ movie.Type }}</td>
+            <td><div class="detailsLink" (click)="getMovieDetails(movie.imdbID)">Details</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="selectedMovie && showMovieDetails &&!loading">
+    <h2>{{ selectedMovie.Title }}</h2>
+    <img *ngIf="selectedMovie.Poster != 'N/A'" [src]="selectedMovie.Poster" alt="{{ selectedMovie.Title }} poster">
+    <p>Year: {{ selectedMovie.Year }}</p>
+    <p>Released: {{ selectedMovie.Released }}</p>
+    <p>Genre: {{ selectedMovie.Genre }}</p>
+    <p>Director: {{ selectedMovie.Director }}</p>
+    <p>Writer: {{ selectedMovie.Writer }}</p>
+    <p>Actors: {{ selectedMovie.Actors }}</p>
+    <p>Type: {{ selectedMovie.Type }}</p>
+    <p>Plot: {{ selectedMovie.Plot }}</p>
+  </div>
+</div>
+
